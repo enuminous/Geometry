@@ -1,0 +1,20 @@
+name: Lean Geometry Audit
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build: true
+      - name: Audit theorems and axioms
+        run: |
+          lake env lean Axioms.lean
+          lake build geometryAudit
+          lake exe geometryAudit
+          if grep -nE '\b(sorry|admit|unsafe axiom)\b' Geometry.lean Axioms.lean Main.lean; then exit 1; fi
