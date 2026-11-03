@@ -13,19 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install pinned Lean toolchain
+      - name: Install elan without invoking lean-action
+        shell: bash
+        run: |
+          curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Resolve pinned Mathlib and generate Lake manifest
+        run: |
+          lake update
+          test -f lake-manifest.json
+      - name: Compile proof library and audit
         uses: leanprover/lean-action@v1
         with:
-          auto-config: false
-          build: false
+          build: true
           test: false
           lint: false
-          use-mathlib-cache: false
-      - name: Resolve pinned Mathlib dependencies
-        run: lake update
-      - name: Build Geometry proof library
-        run: lake build Geometry
-      - name: Audit theorems and axioms
+      - name: Audit theorem dependencies and execute witness
         run: |
           lake env lean Axioms.lean
           lake build geometryAudit
