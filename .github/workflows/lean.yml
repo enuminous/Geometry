@@ -4,14 +4,27 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
+      - name: Install pinned Lean toolchain
+        uses: leanprover/lean-action@v1
         with:
-          build: true
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+      - name: Resolve pinned Mathlib dependencies
+        run: lake update
+      - name: Build Geometry proof library
+        run: lake build Geometry
       - name: Audit theorems and axioms
         run: |
           lake env lean Axioms.lean
