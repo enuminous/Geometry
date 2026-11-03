@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111c">
+<meta name="description" content="Monolithic Geometry Laboratory: interactive ME-006/ME-007 source identifiability, conservation, coordinate invariance, and evidence-bounded verification experiments.">
+<title>GEOMETRY / Monolithic Research Laboratory</title>
+<style>
+:root{color-scheme:dark;--bg:#07111c;--surface:#0c1a29;--surface2:#102238;--surface3:#142b41;--line:#223b50;--line2:#2d5065;--text:#e9f4f7;--muted:#8fa9bc;--teal:#5ce3d0;--blue:#61b7fc;--amber:#f9c579;--red:#f08f9e;--purple:#c5a3f7;--green:#7edbaa;--shadow:0 12px 40px #01070c7a;--sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:22px}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 90% -10%,#12364c90,transparent 45%),linear-gradient(180deg,#06101a,#08121f 42%,#060f1a);color:var(--text);font:14px/1.55 var(--sans)}
+body:before{content:"";position:fixed;inset:0;opacity:.1;pointer-events:none;background-image:linear-gradient(#426b7914 1px,transparent 1px),linear-gradient(90deg,#426b7914 1px,transparent 1px);background-size:34px 34px;z-index:-1}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--teal);outline-offset:3px}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.wrapper{max-width:1600px;margin:0 auto;padding:24px 25px 58px}.mast{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:24px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:13px}.brandmark{width:52px;height:52px;border:1px solid #58d8ca70;background:#0c3037;border-radius:14px;display:grid;place-items:center;box-shadow:inset 0 0 30px #5ce3d013}.brandmark svg{width:35px;height:35px}.brand h1{font-size:18px;font-weight:760;letter-spacing:.15em;margin:0;line-height:1.15}.brand small{display:block;font:10px var(--mono);letter-spacing:.14em;color:var(--muted);margin-top:7px}.mast-right{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);padding:6px 11px;border-radius:999px;color:#b8d3dd;font:10px var(--mono);letter-spacing:.03em;background:#10212fb8}.pill span.dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid #3b6578;background:#16364a;color:#effeff;border-radius:9px;padding:10px 13px;line-height:1.1;font-weight:650;font-size:12px;transition:background .14s,border-color .14s}.btn:hover{background:#1c5062;text-decoration:none}.btn.subtle{background:#122635;border-color:var(--line);color:#b9d4e1}.btn.warning{background:#46371f;border-color:#a27d48;color:#f9dfa8}.btn:disabled{opacity:.42;cursor:not-allowed}.btn.icon{padding:9px 10px}.buttonrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.topintro{display:flex;justify-content:space-between;align-items:end;gap:25px;padding:30px 0 26px}.eyebrow{font:10px var(--mono);letter-spacing:.24em;color:var(--teal);font-weight:700;text-transform:uppercase}.topintro h2{font-size:clamp(30px,3.2vw,47px);line-height:1.09;font-weight:690;letter-spacing:-.05em;margin:11px 0}.topintro h2 em{font-style:normal;color:var(--teal)}.topintro p{color:#acc3d0;max-width:820px;font-size:13px;line-height:1.75;margin:0}.signal{font:11px var(--mono);color:var(--muted);text-align:right;white-space:nowrap}
+.status-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:23px}.stat{border:1px solid var(--line);background:linear-gradient(130deg,#122435dc,#0a1926e8);border-radius:13px;padding:16px 18px;min-width:0}.stat .label{font:10px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.stat strong{display:block;font-size:20px;margin-top:8px;line-height:1.2;letter-spacing:-.03em}.stat .foot{font-size:10px;color:#809cad;margin-top:7px;line-height:1.3}.teal{color:var(--teal)!important}.amber{color:var(--amber)!important}.red{color:var(--red)!important}.purple{color:var(--purple)!important}.green{color:var(--green)!important}.blue{color:var(--blue)!important}
+.workspace{display:grid;grid-template-columns:217px minmax(0,1fr);gap:19px;align-items:start}.sidebar{position:sticky;top:16px;border:1px solid var(--line);border-radius:13px;background:#0c1b2aee;padding:13px;box-shadow:var(--shadow)}.sidegroup{font:10px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:#638ea0;padding:11px 12px 8px}.navbutton{width:100%;border:1px solid transparent;background:transparent;color:#a9c0ce;padding:11px 11px;border-radius:9px;display:flex;gap:10px;align-items:center;text-align:left;font-weight:570;font-size:12px}.navbutton:hover{background:#172e40;color:#f0fcff}.navbutton.active{background:#183e4e;border-color:#367383;color:var(--teal)}.navbutton .num{font:10px var(--mono);color:#668c9b;width:20px}.navbutton.active .num{color:var(--teal)}.sidenote{border-top:1px solid var(--line);margin-top:12px;padding:15px 12px 5px;color:#8aabbd;font-size:11px}.sidenote strong{color:#c9e1e9}.sidenote a{display:block;margin-top:8px;font-size:11px}
+.mainpanel{min-width:0;display:grid;gap:16px}.panel{background:linear-gradient(150deg,#0d1d2c,#0a1926);border:1px solid var(--line);border-radius:13px;min-width:0;box-shadow:0 8px 34px #020a1230}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}.panel-head h3{margin:0;font-size:15px;font-weight:680;letter-spacing:.01em}.panel-head .sub{color:var(--muted);font:10px var(--mono);margin-top:6px}.panel-body{padding:19px 20px}.panel-body.compact{padding:14px 16px}.grid{display:grid;gap:15px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.grid.wide{grid-template-columns:minmax(0,1.4fr) minmax(300px,1fr)}.grid.readout{gap:10px}.split-main{display:grid;grid-template-columns:minmax(255px,325px) minmax(0,1fr);gap:16px;align-items:start}.formstack{display:grid;gap:15px}.control{display:block}.control .pair{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:7px}.control label{font-size:11px;font-weight:650;color:#b8d0db}.control output{font:12px var(--mono);color:var(--teal);white-space:nowrap}.control input[type=range]{width:100%;appearance:none;height:5px;background:#294b5b;border-radius:20px;cursor:ew-resize}.control input[type=range]::-webkit-slider-thumb{appearance:none;width:13px;height:13px;border-radius:50%;background:var(--teal);border:2px solid #d7ffff;box-shadow:0 0 0 2px #153941}.control .hint{font-size:10px;color:#7597aa;margin-top:6px}.control input[type=number],.control input[type=text],.control select,.control textarea,select,input[type=text],input[type=number],textarea{width:100%;border:1px solid #35556b;background:#091b2b;color:#ecfcff;border-radius:8px;padding:9px 11px;min-height:36px;font:12px var(--sans)}.control select{cursor:pointer}.control textarea{min-height:95px;resize:vertical}.control input[type=checkbox]{accent-color:var(--teal)}.checkline{display:flex;gap:9px;align-items:center;font-size:11px;color:#b3c9d7}.checkline input{accent-color:var(--teal)}.controlset{display:grid;gap:15px;padding:15px;border:1px solid #264355;border-radius:11px;background:#0e2232}.controlset h4{font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.11em;color:#9bc1cf;margin:0 0 1px}.mini-nav{display:flex;gap:7px;flex-wrap:wrap}.mini-nav button{font:10px var(--mono);color:#b9d5da;border:1px solid #2d5366;background:#0b2332;border-radius:7px;padding:7px 9px}.mini-nav button:hover{border-color:var(--teal)}.chartwrap{position:relative;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#091825;min-width:0;padding:10px 11px}.charttop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:0 4px 8px}.charttop strong{font-size:11px;font-weight:650;color:#d7edf6}.charttop small{font:10px var(--mono);color:#8ca8b8}.chart{display:block;width:100%;height:260px}.chart.short{height:195px}.chart.tall{height:320px}.chart.heatmap{height:190px}.legend{display:flex;flex-wrap:wrap;gap:10px 15px;font:10px var(--mono);color:#aac1cc;padding:5px 4px 0}.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c);margin-right:6px}.readbox{background:#0d2435;border:1px solid #274457;border-radius:10px;padding:13px;min-width:0}.readbox .over{font:10px var(--mono);letter-spacing:.05em;color:#93b1bd}.readbox strong{display:block;font:600 20px/1.25 var(--mono);color:#edf8fa;margin:6px 0;overflow-wrap:anywhere}.readbox .detail{font-size:10px;color:#83a5b5}.note{border-left:3px solid var(--amber);background:#43331d45;color:#ebd5b2;font-size:12px;line-height:1.65;padding:12px 15px;border-radius:0 8px 8px 0}.note.tealborder{border-left-color:var(--teal);background:#0e3b3d7a;color:#c0e9e4}.note.redborder{border-left-color:var(--red);background:#47263855;color:#edc4c9}.prose{font-size:12px;color:#acc6d3;line-height:1.8}.prose strong{color:#e3f4f9}.small{font-size:11px;color:#9bb5c5}.mono{font-family:var(--mono)}.mathline{font:12px/1.9 var(--mono);color:#bfe2e8;overflow-wrap:anywhere;padding:10px 12px;border:1px solid #2b5160;background:#071824;border-radius:8px}.status{display:inline-flex;align-items:center;padding:4px 8px;border:1px solid #385466;border-radius:6px;font:10px var(--mono);letter-spacing:.03em;background:#1a3041;color:#b8d0dc}.status.pass{border-color:#286a66;background:#12413f;color:#7ce4d5}.status.fail{border-color:#89545b;background:#4b2733;color:#ffbdc4}.status.pending{border-color:#806240;background:#45331e;color:#f9d396}.status.info{border-color:#55639a;background:#262f50;color:#b8caff}.rule{border:0;border-top:1px solid var(--line);margin:17px 0}.data-table{width:100%;border-collapse:collapse;font-size:11px}.data-table th,.data-table td{padding:10px 9px;border-bottom:1px solid #294456;text-align:left;vertical-align:top}.data-table th{color:#89a9ba;font:10px var(--mono);text-transform:uppercase}.data-table td{color:#d7e8f2;overflow-wrap:anywhere}.scrolltable{overflow:auto}.matrix-editor{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.matrix-editor input{width:100%;min-width:0;text-align:center;padding:7px 2px;font:11px var(--mono);background:#0c2a39;border:1px solid #2b5263;border-radius:6px;color:#dff6f9}.matrix-editor input:focus{border-color:var(--teal)}.atlas-card{background:#102537;border:1px solid #2c4b61;border-radius:10px;padding:15px;display:grid;gap:9px}.atlas-card h4{margin:0;font-size:13px}.atlas-card p{margin:0;color:#a9c4d1;font-size:11px;line-height:1.7}.exp-card{display:grid;gap:7px;min-height:145px;background:#0d2534;border:1px solid #2b495a;border-radius:11px;padding:14px}.exp-card h4{font-size:12px;margin:0}.exp-card p{font-size:11px;color:#9abac7;margin:0;line-height:1.6;flex:1}.exp-card .buttonrow{margin-top:auto}.audititem{display:flex;align-items:start;gap:12px;padding:10px 11px;border-bottom:1px solid #1e3a4b}.audititem:last-child{border-bottom:0}.audititem .basis{flex:1}.audititem h4{font-size:12px;font-weight:650;margin:0 0 3px}.audititem p{color:#93b0c0;font-size:11px;margin:0}.audititem .stamp{flex-shrink:0}.formula-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.formula-row .readbox strong{font-size:16px}.footer{margin-top:28px;padding:22px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#81a0b1;font:10px/1.8 var(--mono)}.notice{font-size:10px;color:#819eab}.hidden{display:none!important}
+#toast{position:fixed;right:22px;bottom:22px;z-index:20;max-width:min(480px,calc(100vw - 44px));padding:13px 15px;color:#f0fafa;background:#194053;border:1px solid #4b9b9d;border-radius:10px;box-shadow:var(--shadow);font-size:12px;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}#toast.show{opacity:1;transform:none}
+@media(max-width:1260px){.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.wide{grid-template-columns:1fr}.split-main{grid-template-columns:minmax(230px,310px) minmax(0,1fr)}}
+@media(max-width:1000px){.workspace{grid-template-columns:1fr}.sidebar{position:static;display:flex;flex-wrap:wrap;gap:5px;align-items:center}.sidegroup,.sidenote{display:none}.navbutton{width:auto;padding:9px 12px}.status-strip{grid-template-columns:repeat(2,1fr)}.topintro{align-items:start}.signal{display:none}}
+@media(max-width:680px){.wrapper{padding:13px 12px 30px}.mast{align-items:flex-start;flex-direction:column}.topintro{padding:25px 0}.grid.two,.grid.three,.grid.four,.split-main,.formula-row{grid-template-columns:1fr}.panel-head{padding:14px 15px}.panel-body{padding:14px 15px}.status-strip{gap:8px}.stat{padding:12px}.stat strong{font-size:16px}.sidebar{gap:4px}.navbutton .num{display:none}.navbutton{font-size:11px;padding:8px 9px}.chart{height:220px}.chart.tall{height:260px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrapper">
+ <header class="mast">
+  <div class="brand"><div class="brandmark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#6ee7d5" stroke-width="1.2"><path d="M20 2L37 11V29L20 38L3 29V11Z"/><path d="M20 2V38M3 11L37 29M37 11L3 29" opacity=".7"/><circle cx="20" cy="20" r="6" stroke="#e0fffa" stroke-width="1.6"/></svg></div><div><h1>GEOMETRY <span style="color:var(--teal)">/</span> FIELD LAB</h1><small>MONOLITHIC LLC · GEOMETRY-FOUNDATION-001</small></div></div>
+  <div class="mast-right"><span class="pill"><span class="dot"></span>LOCAL · DETERMINISTIC</span><span class="pill">ME-006 / ME-007</span><a class="btn subtle" href="https://github.com/enuminous/Geometry" target="_blank" rel="noopener noreferrer">Source ↗</a></div>
+ </header>
+ <section class="topintro"><div><div class="eyebrow">INTERACTIVE MATHEMATICAL INSTRUMENT · 2026.11</div><h2>A geometry that can <em>fail.</em></h2><p>Investigate source ambiguity, conditional conservation, coordinate invariance, and observable identification. Every plot is computed in your browser from explicit toy-model assumptions. No simulated green light is allowed to masquerade as physical evidence.</p></div><div class="signal">SOURCE: enuminous/Geometry<br>NO REAL-WORLD MEASUREMENTS<br>NO BROWSER-EXECUTED LEAN KERNEL</div></section>
+ <section class="status-strip" aria-label="Scientific evidence boundaries">
+  <div class="stat"><div class="label">G1 / Construction</div><strong class="teal">EXPLICIT</strong><div class="foot">Component data and algebra; not tensor bundle covariance</div></div>
+  <div class="stat"><div class="label">G2 / Consequences</div><strong class="amber">CONDITIONAL</strong><div class="foot">Source identities and assumed Bianchi relation</div></div>
+  <div class="stat"><div class="label">G3 / Physical detection</div><strong class="red">UNRESOLVED</strong><div class="foot">No independent measurement distinguishing κI from zero</div></div>
+  <div class="stat"><div class="label">Experimental domain</div><strong class="blue">IN BROWSER</strong><div class="foot">Synthetic arithmetic and numerical diagnostic tests</div></div>
+ </section>
+ <div class="workspace"><nav class="sidebar" aria-label="Laboratory modes" id="sidebar"><div class="sidegroup">LAB MODES</div></nav><main class="mainpanel" id="main" aria-live="polite"></main></div>
+ <footer class="footer"><div>MONOLITHIC LLC · EFMW IS A RESEARCH PROGRAM · EVERY CLAIM HAS A SCOPE</div><div><a href="https://github.com/enuminous/Geometry/blob/main/Geometry.lean" target="_blank" rel="noopener noreferrer">LEAN SOURCE</a> · <a href="https://github.com/enuminous/Geometry/blob/main/COUNTEREXAMPLE_ATLAS.md" target="_blank" rel="noopener noreferrer">COUNTEREXAMPLE ATLAS</a> · <a href="https://github.com/enuminous/Geometry/actions" target="_blank" rel="noopener noreferrer">CI WORKFLOWS</a></div></footer>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<input class="hidden" id="importFile" type="file" accept="application/json,.json">
+<script>
+'use strict';
+const VERSION='0.2.0', STORE='enuminous-geometry-lab-v2', MODE_META=[
+ {id:'overview',n:'01',name:'Mission control'},
+ {id:'split',n:'02',name:'Source-split laboratory'},
+ {id:'conservation',n:'03',name:'Conservation & FLRW'},
+ {id:'coordinate',n:'04',name:'Coordinate firewall'},
+ {id:'ident',n:'05',name:'Identifiability trials'},
+ {id:'atlas',n:'06',name:'Counterexample atlas'},
+ {id:'verify',n:'07',name:'Verification harness'},
+ {id:'notebook',n:'08',name:'Evidence notebook'}
+];
+const START={mode:'overview',settings:{quality:1.5,samples:256,theme:'dark'},split:{kappa:0.8,editor:'T',symmetric:true,observable:'sourceTrace',T:[1.4,0.12,0,0,0.12,0.9,0,0,0,0,0.8,-0.15,0,0,-0.15,0.5],I:[0.8,0.3,0,0,0.3,-0.35,0,0,0,0,0.9,0.11,0,0,0.11,0.6],J:[0.45,0,0,0,0,-0.2,0,0,0,0,0.3,0,0,0,0,0.75]},conservation:{p:2/3,t:1,scalarDiv:0,kappa:0.8,h:0.03,timeMin:0.5,timeMax:4.5},coordinate:{theta:28,shear:0.4,sx:1.3,sy:0.75,txx:2,txy:0.45,tyy:1.1},ident:{mode:'free',seed:2381,N:96,kappa:0.8,noise:0.23,matterNoise:0.15,replicates:100},notes:[],draft:{title:'',claim:'',source:'',status:'UNRESOLVED'},testReceipt:null,recipe:'CEX-001'};
+const clone=x=>JSON.parse(JSON.stringify(x));
+let state=clone(START), computed=null, toastTimer=null, scheduled=false;
+try {const saved=JSON.parse(localStorage.getItem(STORE)||'null');if(saved && saved.labVersion===VERSION){const d=saved.state||{};for(const section of ['settings','split','conservation','coordinate','ident','draft'])if(d[section]&&typeof d[section]==='object')state[section]={...state[section],...d[section]};if(Array.isArray(d.notes))state.notes=d.notes.slice(0,150);if(d.testReceipt)state.testReceipt=d.testReceipt;if(MODE_META.some(m=>m.id===d.mode))state.mode=d.mode;}}catch(e){}
+function persist(){try{localStorage.setItem(STORE,JSON.stringify({labVersion:VERSION,state}));document.getElementById('saveFlag')?.replaceChildren(document.createTextNode('Saved locally'));}catch(e){const x=document.getElementById('saveFlag');if(x)x.textContent='Storage unavailable — export JSON';}}
+function clamp(x,lo,hi){return Math.max(lo,Math.min(hi,x));}
+function num(x,d=4){return Number.isFinite(x)?(Math.abs(x)>=1e5||Math.abs(x)>0&&Math.abs(x)<1e-4?x.toExponential(2):x.toLocaleString('en-US',{maximumFractionDigits:d})):String(x);}
+function esc(x){return String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');}
+function get(path){return path.split('.').reduce((a,b)=>a?.[b],state);}
+function set(path,val){const p=path.split('.');let o=state;for(let i=0;i<p.length-1;i++)o=o[p[i]];o[p[p.length-1]]=val;}
+function announce(s){const el=document.querySelector('#toast');el.textContent=s;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2900);}
+function status(label,cls='pending'){return `<span class="status ${cls}">${esc(label)}</span>`;}
+function section(title,subtitle,body,tools=''){return `<section class="panel"><div class="panel-head"><div><h3>${title}</h3>${subtitle?`<div class="sub">${subtitle}</div>`:''}</div>${tools}</div><div class="panel-body">${body}</div></section>`;}
+function box(title,value,detail='',color=''){return `<div class="readbox"><div class="over">${title}</div><strong class="${color}">${value}</strong>${detail?`<div class="detail">${detail}</div>`:''}</div>`;}
+function rng(path,label,min,max,step,unit='',hint=''){const value=get(path);return `<div class="control"><div class="pair"><label for="f_${path}">${label}</label><output data-out="${path}">${num(value,5)}${unit}</output></div><input id="f_${path}" data-path="${path}" type="range" min="${min}" max="${max}" step="${step}" value="${esc(value)}" aria-label="${label}">${hint?`<div class="hint">${hint}</div>`:''}</div>`;}
+function sel(path,label,options,hint=''){const v=get(path);return `<div class="control"><div class="pair"><label for="f_${path}">${label}</label></div><select id="f_${path}" data-path="${path}" aria-label="${label}">${options.map(([key,desc])=>`<option value="${esc(key)}" ${String(key)===String(v)?'selected':''}>${esc(desc)}</option>`).join('')}</select>${hint?`<div class="hint">${hint}</div>`:''}</div>`;}
+function integer(path,label,min,max,step=1){return `<div class="control"><div class="pair"><label for="f_${path}">${label}</label></div><input id="f_${path}" data-path="${path}" type="number" min="${min}" max="${max}" step="${step}" value="${esc(get(path))}"></div>`;}
+function canvas(id,title,sub='',cls='',legend=''){return `<div class="chartwrap"><div class="charttop"><strong>${title}</strong><small>${sub}</small></div><canvas id="${id}" class="chart ${cls}" aria-label="${esc(title)}" role="img"></canvas>${legend?`<div class="legend">${legend}</div>`:''}</div>`;}
+function legend(...entries){return entries.map(([c,label])=>`<span style="--c:${c}">${label}</span>`).join('');}
+function controlset(title,body){return `<div class="controlset"><h4>${title}</h4>${body}</div>`;}
+function toolbar(){return `<div class="buttonrow"><button class="btn subtle" data-action="copy-link">Share state</button><button class="btn subtle" data-action="export-json">Export receipt</button><button class="btn subtle" data-action="export-png">Export plot PNG</button><button class="btn subtle" data-action="reset-mode">Reset mode</button></div>`;}
+function staticWarning(text){return `<div class="note"><strong>Scope lock.</strong> ${text}</div>`;}
+const RECIPES=[
+ {id:'CEX-001',name:'Curvature obstruction',detail:'Dust-like FLRW profile; on-shell scalar and changing R produce a nonzero I divergence.',mode:'conservation',config:{p:2/3,t:1,scalarDiv:0,kappa:0.8}},
+ {id:'CEX-001-RAD',name:'Radiation control',detail:'p = 1/2 makes the chosen flat FLRW scalar-curvature profile identically zero.',mode:'conservation',config:{p:0.5,t:1,scalarDiv:0,kappa:0.8}},
+ {id:'CEX-001-OFF',name:'Off-shell stress',detail:'Vary scalar divergence separately; isolate what depends on the on-shell assumption.',mode:'conservation',config:{p:2/3,t:1,scalarDiv:0.75}},
+ {id:'CEX-001-FINE',name:'Derivative convergence',detail:'Reduce the centered-difference step and inspect error decay.',mode:'conservation',config:{p:2/3,t:1.3,h:0.005}},
+ {id:'CEX-002',name:'Invisible source transfer',detail:'A nonzero reallocation changes T and I without changing their total S.',mode:'split',config:{kappa:0.8,observable:'sourceTrace'}},
+ {id:'CEX-002-K0',name:'Zero-coupling limit',detail:'κ = 0 removes I from the total source; verify the zero-source identity.',mode:'split',config:{kappa:0,observable:'source00'}},
+ {id:'CEX-003',name:'Matter-sector observation',detail:'Source-only observables are blind; matter-sector readouts can distinguish allocations.',mode:'split',config:{kappa:1,observable:'matter00'}},
+ {id:'CEX-003-FREE',name:'Unrestricted matter null',detail:'Generate data where κ is not identifiable because unrestricted T can absorb it.',mode:'ident',config:{mode:'free',kappa:1.2,noise:0.25}},
+ {id:'CEX-003-FIXED',name:'Independent fixed matter',detail:'Under an idealized fixed-T assumption, nonzero coupling can become testable.',mode:'ident',config:{mode:'fixed',kappa:0.85,noise:0.2}},
+ {id:'CEX-003-MEAS',name:'Noisy matter measurement',detail:'Inject an independent matter measurement with its own noise.',mode:'ident',config:{mode:'measured',kappa:0.85,noise:0.25,matterNoise:0.28}},
+ {id:'CEX-003-NULL',name:'Coupling-null negative control',detail:'Freeze κtruth=0 and estimate the synthetic false-positive rate.',mode:'ident',config:{mode:'measured',kappa:0,noise:0.25,matterNoise:0.2}},
+ {id:'CEX-003-NOISE',name:'High-noise stress test',detail:'Increase observation noise to test power collapse and calibration fragility.',mode:'ident',config:{mode:'measured',kappa:0.5,noise:0.8,matterNoise:0.6}},
+ {id:'CF-001',name:'Rotation coordinate check',detail:'Orthogonal basis change with trace invariance.',mode:'coordinate',config:{theta:45,shear:0,sx:1,sy:1}},
+ {id:'CF-002',name:'Sheared basis check',detail:'Component trace changes, metric-contracted trace does not.',mode:'coordinate',config:{theta:30,shear:1.1,sx:1.2,sy:0.8}},
+ {id:'CF-003',name:'Near-singular basis',detail:'Escalate conditioning and trigger fail-closed numerical guidance.',mode:'coordinate',config:{theta:15,shear:1.9,sx:2,sy:0.005}},
+ {id:'CF-004',name:'Reflection control',detail:'Reverse coordinate orientation while preserving intrinsic contraction.',mode:'coordinate',config:{theta:0,shear:0,sx:-1,sy:1}},
+ {id:'ZOO-001',name:'Deterministic regression sweep',detail:'Run all available bounded checks with explicit assumptions and receipts.',mode:'verify',config:{}},
+ {id:'G3-001',name:'Physical evidence gap',detail:'Record missing prediction, independently measured matter, admissible null, and real observable.',mode:'notebook',config:{}}
+];
+function overview(){return `
+${section('What the laboratory actually tests','The distinction that governs every experiment',`
+ <div class="grid three">
+  <div class="atlas-card"><span class="status pass">G1 / COMPONENTS</span><h4>Did we define the object?</h4><p>4×4 arrays, symmetry and source addition can be tested. No coordinate transformation law is proved by component typing alone.</p></div>
+  <div class="atlas-card"><span class="status pending">G2 / CONDITIONAL</span><h4>Does the definition have consequences?</h4><p>Reallocation invariance and curvature-gradient obstruction give mathematical countermodels under explicitly supplied conditions.</p></div>
+  <div class="atlas-card"><span class="status fail">G3 / PHYSICAL OPEN</span><h4>Can an observation separate κI from zero?</h4><p>Not yet. An admissible physical null, real data and separately constrained matter dynamics must be supplied.</p></div>
+ </div>
+ <div style="margin-top:16px" class="note tealborder"><strong>Controlling question:</strong> Is there any independently measured observable for which a nonzero κI prediction survives all admissible κ=0 alternatives? This browser cannot decide it using simulations alone.</div>
+`)}
+${section('Research pipeline','Choose a mathematical target, counterexample, or validation branch',`
+ <div class="grid four">${RECIPES.slice(0,16).map(r=>`<div class="exp-card"><div class="eyebrow" style="letter-spacing:.08em;font-size:9px">${r.id}</div><h4>${esc(r.name)}</h4><p>${esc(r.detail)}</p><div class="buttonrow"><button class="btn subtle" data-recipe="${r.id}">Open experiment →</button></div></div>`).join('')}</div>
+`)}
+${section('Laboratory protocols','Every mode has an explicit epistemic ceiling',`
+ <div class="scrolltable"><table class="data-table"><thead><tr><th>Laboratory</th><th>Mathematical objective</th><th>Cannot establish</th></tr></thead><tbody>
+ <tr><td>Source split</td><td>Algebraic degeneracy of T+κI in unrestricted components</td><td>Physical equivalence with independently constrained matter</td></tr>
+ <tr><td>Conservation</td><td>Reduced Bianchi obstruction and flat-FLRW profile checks</td><td>A Lean proof of curvature from a Lorentzian metric</td></tr>
+ <tr><td>Coordinates</td><td>2D basis-change invariance and conditioning</td><td>4D Lorentzian covariance of ME-006</td></tr>
+ <tr><td>Identifiability</td><td>Synthetic null/alternative under selectable information constraints</td><td>Measured detection of a new informational field</td></tr>
+ <tr><td>Verification</td><td>Numerical regressions and counterexample receipts</td><td>Lean kernel verification or physical truth</td></tr></tbody></table></div>
+ <p class="small">All modes available in this release are curated finite experiments. The phrase “all possible experiments” has no finite implementable meaning; experiments requiring new physical definitions or external observations remain visibly open.</p>
+`)}
+`}
+function matrixEditor(){const name=state.split.editor,arr=state.split[name];return `<div class="matrix-editor" id="matrixEditor">${arr.map((v,i)=>`<input type="number" step="0.05" data-matrix="${name}" data-cell="${i}" value="${esc(num(v,8).replaceAll(',',''))}" aria-label="${name}[${Math.floor(i/4)},${i%4}]">`).join('')}</div>`;}
+function splitView(){return `
+${section('CEX-002 / The source-split problem','A 4×4 component-level experiment; no general tensor covariance has been inferred',toolbar())}
+<div class="split-main">
+ ${section('Control matrix','Edit every component; change the observable and the coupling',`
+ <div class="formstack">
+  ${rng('split.kappa','Coupling κ',-3,3,0.05,'','Unit conventions are not fixed in this algebraic toy model.')}
+  ${sel('split.observable','Observed quantity',[['sourceTrace','trace(S) — component trace'],['sourceNorm','Frobenius norm(S)'],['source00','S₀₀ source component'],['matter00','T₀₀ — separately observed matter']])}
+  ${sel('split.editor','Matrix editor',[['T','Ordinary source T'],['I','Informational source I'],['J','Reallocation J']])}
+  <label class="checkline"><input data-path="split.symmetric" type="checkbox" ${state.split.symmetric?'checked':''}> Mirror off-diagonal edits (symmetry)</label>
+  <div>${matrixEditor()}</div>
+  ${controlset('Fast experiments',`<div class="mini-nav"><button data-recipe="CEX-002">Transfer</button><button data-recipe="CEX-002-K0">Zero κ</button><button data-recipe="CEX-003">Matter readout</button><button data-action="random-matrices">Seeded random matrices</button></div>`)}
+ </div>`)}
+ <div class="grid">
+   <div class="grid two">${canvas('heatT','T / ordinary','selected 4×4 components','heatmap')}${canvas('heatI','I / information','selected 4×4 components','heatmap')}${canvas('heatS','S = T + κI','total source','heatmap')}${canvas('heatSp','S′ = T′ + κI′','after reallocation','heatmap')}</div>
+   <div class="grid four readout" id="splitMetrics"></div>
+   <div class="mathline">T′ = T + κJ &nbsp;|&nbsp; I′ = I − J &nbsp;|&nbsp; S′ = T′ + κI′ = S</div>
+   <div id="splitNarrative"></div>
+ </div>
+</div>
+${section('Interpretation firewall','Exactly which observer could tell the difference?',`
+ <div class="grid two"><div class="note tealborder"><strong>Source-only observer:</strong> Anything computed only from S must match across these representations. Algebraic PASS does not imply a new field is absent in nature.</div><div class="note redborder"><strong>Independent matter observer:</strong> T and T′ can differ. That may break the degeneracy, provided actual matter equations and measurement rules restrict the allowed allocations.</div></div>
+`)}
+`;}
+function conservationView(){return `
+${section('CEX-001 / Curvature-gradient obstruction','Spatially flat power-law FLRW: a(t) = tᵖ with t > 0, conventional (−+++) sign choice',toolbar())}
+<div class="split-main">
+ ${section('Geometry controls','Analytic FLRW profile + finite-difference diagnostic',`
+ <div class="formstack">
+  ${rng('conservation.p','Power-law exponent p',0,1.6,0.005)}
+  ${rng('conservation.t','Time t (dimensionless model units)',0.5,4.5,0.01)}
+  ${rng('conservation.scalarDiv','Assumed scalar-stress divergence',-1.8,1.8,0.05)}
+  ${rng('conservation.kappa','Coupling κ',-3,3,0.05)}
+  ${rng('conservation.h','Central-difference step h',0.001,0.2,0.001,'','A converged finite difference checks this formula, not physical reality.')}
+  ${rng('conservation.timeMin','Plot start time',0.25,2,0.05)}
+  ${rng('conservation.timeMax','Plot end time',2.5,7,0.1)}
+  ${controlset('Reference modes',`<div class="mini-nav"><button data-recipe="CEX-001">Dust p=2/3</button><button data-recipe="CEX-001-RAD">Radiation p=1/2</button><button data-recipe="CEX-001-OFF">Off-shell</button><button data-recipe="CEX-001-FINE">Refine</button></div>`)}
+ </div>`)}
+ <div class="grid">
+  <div class="grid four readout" id="consMetrics"></div>
+  ${canvas('curvaturePlot','Ricci scalar R(t) / flat FLRW','analytical profile; model units','tall',legend(['#5ce3d0','R(t)']))}
+  ${canvas('gradientPlot','Gradient and divergence','time-component reduced Bianchi relation','tall',legend(['#61b7fc','∂ₜR'],['#f9c579','div(I)'],['#f08f9e','−κ div(I)']))}
+  ${canvas('convergencePlot','Finite-difference convergence','relative error against analytic derivative','short',legend(['#c5a3f7','centered finite difference error']))}
+  <div id="consNarrative"></div>
+ </div>
+</div>
+${section('What is (and is not) derived','The metric specification makes the analytic context explicit',`
+ <div class="mathline">ds² = −dt² + a(t)²(dx²+dy²+dz²), a(t)=tᵖ; R = 6(Ḣ + 2H²) = 6p(2p−1)/t²</div>
+ <div class="mathline" style="margin-top:9px">∂ₜR = −12p(2p−1)/t³; assumed div(I) = div(T_scalar) + ½ ∂ₜR</div>
+ <p class="prose">The browser evaluates the standard flat-FLRW scalar-curvature identity and its derivatives; it does not run a full Riemann-tensor computation or Lean's kernel. In particular, satisfying this diagnostic does not show the candidate tensor and metric solve the coupled modified Einstein–matter equations. The reduced Bianchi relation is the stated premise of the Lean countermodel.</p>
+`)}
+`;}
+function coordinateView(){return `
+${section('CF-001 / Coordinate-invariant firewall','A 2D positive-definite model: components are not geometric objects; contractions can be',toolbar())}
+<div class="split-main">
+ ${section('Basis controls','x = A x′, T′ = Aᵀ T A, g′ = Aᵀ g A',`
+ <div class="formstack">
+  ${rng('coordinate.theta','Rotation angle',-180,180,1,'°')}
+  ${rng('coordinate.shear','Shear',-2,2,0.02)}
+  ${rng('coordinate.sx','Scale x',-2.5,2.5,0.005)}
+  ${rng('coordinate.sy','Scale y',0.005,2.5,0.005)}
+  ${rng('coordinate.txx','Tensor T₁₁',-3,4,0.05)}
+  ${rng('coordinate.txy','Tensor T₁₂',-2,2,0.05)}
+  ${rng('coordinate.tyy','Tensor T₂₂',-3,4,0.05)}
+  ${controlset('Counterexample presets',`<div class="mini-nav"><button data-recipe="CF-001">Rotation</button><button data-recipe="CF-002">Shear</button><button data-recipe="CF-003">Ill-conditioning</button><button data-recipe="CF-004">Reflection</button></div>`)}
+ </div>`)}
+ <div class="grid">
+  <div class="grid four readout" id="coordMetrics"></div>
+  ${canvas('basisPlot','Reference and transformed basis','2D Euclidean coordinate experiment','tall',legend(['#5ce3d0','e₁′'],['#61b7fc','e₂′'],['#f9c579','metric-unit circle']))}
+  <div class="grid two">${canvas('tensorHeat','Covariant components T′','change with the basis','heatmap')}${canvas('metricHeat','Metric components g′','change with the basis','heatmap')}</div>
+  <div id="coordNarrative"></div>
+ </div>
+</div>
+${section('Invariant vs. coordinate-dependent','Metric-contracted trace is the meaningful comparison',`
+ <div class="mathline">tr(g⁻¹T) = tr((g′)⁻¹T′); in general tr(T′) ≠ tr(T)</div>
+ <p class="prose">This is a finite-dimensional 2D educational example. It verifies the logic of a coordinate firewall, but does not prove transformation behavior for the 4D ME-006 field or a Levi-Civita connection. Large condition numbers degrade floating-point accuracy; the harness reports that limitation rather than claiming exact numerical invariance.</p>
+`)}
+`;}
+function identView(){return `
+${section('G3 / Observational identifiability simulator','Synthetic data only: this screen can show why an observation model is needed',toolbar())}
+<div class="split-main">
+ ${section('Measurement assumptions','The matter sector determines what can be distinguished',`
+ <div class="formstack">
+  ${sel('ident.mode','Matter information available',[['free','Unrestricted T — source-only observation'],['fixed','Exactly known T — idealized'],['measured','Independent noisy measurement of T']])}
+  ${rng('ident.kappa','True injected coupling κ',-2,2,0.05)}
+  ${rng('ident.noise','Source-measurement noise σ',0,1,0.01)}
+  ${rng('ident.matterNoise','Matter-measurement noise σT',0,1,0.01)}
+  ${rng('ident.N','Sample count',24,400,4)}
+  ${rng('ident.seed','Random seed',1,10000,1)}
+  ${rng('ident.replicates','Calibration/holdout trials per arm',40,300,10)}
+  ${controlset('Controls and negative cases',`<div class="mini-nav"><button data-recipe="CEX-003-FREE">Unrestricted</button><button data-recipe="CEX-003-FIXED">Fixed matter</button><button data-recipe="CEX-003-MEAS">Measured matter</button><button data-recipe="CEX-003-NULL">κ=0 null</button><button data-recipe="CEX-003-NOISE">Noise stress</button></div>`)}
+  <button class="btn" data-action="reseed">New deterministic seed</button>
+ </div>`)}
+ <div class="grid">
+  <div class="grid four readout" id="identMetrics"></div>
+  ${canvas('identTime','Example generated observation','source + injected κI + noise','tall',legend(['#61b7fc','synthetic y'],['#f9c579','null T'],['#5ce3d0','alternative fit']))}
+  ${canvas('identHistogram','Calibration and held-out detector statistics','95th-percentile null cutoff from separate synthetic calibration','tall',legend(['#61b7fc','held-out null'],['#f9c579','held-out alternative'],['#f08f9e','frozen null cutoff']))}
+  <div id="identNarrative"></div>
+ </div>
+</div>
+${section('Rules for interpreting this simulation','A high synthetic detection rate does not verify an EFMW field',`
+ <div class="grid two"><div class="note tealborder"><strong>Predeclared scoring:</strong> compare ΔSSE = SSE(κ=0) − SSE(best κ), calibrate its cutoff on separate simulated null trials, then count above-cutoff events on independent holdout seeds. The statistic and model are illustrative, not a validated likelihood-ratio test.</div><div class="note redborder"><strong>Admissible null matters:</strong> with unrestricted T, the κ=0 model can use T′=T+κI and fit exactly the same source series. With independently fixed/measured T, this escape is no longer automatically admissible. This is about assumptions, not actual observation of new physics.</div></div>
+`)}
+`;}
+function atlasView(){return `
+${section('Counterexample atlas','Specific attacks on the ME-006/ME-007 reasoning chain',toolbar())}
+${section('Interactive test cases','Examples constructed for the actual source-split problem, not just textbook illustrations',`
+ <div class="grid two">${[
+ ['CEX-001','Automatic separate conservation','Assume div(I)=div(Tφ)+½∂R and div(Tφ)=0. A nonzero gradient forces nonzero div(I).','CEX-001'],
+ ['CEX-002','Hidden source transfer','Move κJ into ordinary matter and J out of information. The gravitational source S does not change.','CEX-002'],
+ ['CEX-003','Source-only blindness','Compare a source-only observer with an independently observed matter sector. Identifiability depends on what is actually measured.','CEX-003-FREE'],
+ ['CEX-004','Metric profile vs. geometry','The power-law FLRW scalar profile checks analytic identities but is not a formal 4D connection/curvature proof.','CEX-001'],
+ ['CF-002','Coordinate component trap','A shear changes ordinary component trace while metric contraction is invariant, when the basis remains invertible.','CF-002'],
+ ['CF-003','Degenerate change of basis','Approach a singular basis and inspect numerical conditioning. Report failed preconditions instead of a tensorial PASS.','CF-003'],
+ ['ID-NULL','Vanishing source coupling','Set κ=0. Any simulated “detection” is a false positive for the stated coupling test.','CEX-003-NULL'],
+ ['ID-NOISE','Unstable identification','Add noise to source and matter measurement until synthetic κ estimates are unreliable.','CEX-003-NOISE']
+ ].map(([id,title,detail,recipe])=>`<div class="atlas-card"><div class="eyebrow" style="letter-spacing:.08em;font-size:9px">${id}</div><h4>${title}</h4><p>${detail}</p><div><button class="btn subtle" data-recipe="${recipe}">Run case →</button></div></div>`).join('')}</div>
+`)}
+${section('Where the suite must stop','Permanent fail-closed research gates',`
+ <div class="grid three"><div class="note"><strong>Covariance not implemented.</strong> A typed 4×4 array is not a section of a tensor bundle without a transformation law.</div><div class="note"><strong>Coupled solution not established.</strong> The conditional Bianchi witness is not a verified solution of ME-007 with independent matter dynamics.</div><div class="note"><strong>Real data not supplied.</strong> Numerical optimization of a simulated coupling cannot decide whether κI exists in nature.</div></div>
+`)}
+`;}
+function verificationView(){return `
+${section('Verification harness','Reproducible numerical tests; browser checks are never Lean proofs',toolbar())}
+${section('Run bounded regression and counterexample checks','Deterministic property sweeps + exact identities at declared numerical tolerance',`
+ <div class="buttonrow"><button class="btn" data-action="run-tests">Run all checks</button><button class="btn subtle" data-action="export-tests">Export test CSV</button><button class="btn subtle" data-action="clear-tests">Clear receipt</button><a class="btn subtle" href="https://github.com/enuminous/Geometry/actions" target="_blank" rel="noopener noreferrer">Inspect Lean CI ↗</a></div>
+ <p class="small">The harness deliberately separates a passing numerical identity, an expected counterexample, and an untestable physical claim. Numerical tolerances are relative and scale-aware; degenerate preconditions are reported rather than hidden.</p>
+ <div id="verificationMetrics" class="grid four readout" style="margin:18px 0"></div>
+ <div id="verificationRows"></div>
+`)}
+${section('Proof boundary','The true Lean build is a separate workflow',`
+ <p class="prose">Lean source: <a href="https://github.com/enuminous/Geometry/blob/main/Geometry.lean" target="_blank" rel="noopener noreferrer">Geometry.lean</a>. The browser evaluates JavaScript formulas, not Lean's kernel or the Mathlib source tree. Check a specific GitHub Actions run with matching commit SHA before reporting kernel verification. Even if Lean passes, the full tensor geometry, Bianchi derivation from metric, and physical discriminating observation remain unresolved.</p>
+`)}
+`;}
+function notebookView(){return `
+${section('Evidence notebook & protocol freeze','Local-only records. Export a JSON receipt or CSV ledger when evidence arrives',toolbar())}
+${section('New evidence entry','No entry upgrades G3 or any proof status automatically',`
+ <div class="grid two">
+ <div class="formstack">
+  ${sel('draft.status','Evidence classification',[['UNRESOLVED','UNRESOLVED — requires evidence'],['PLANNED','PLANNED — not executed'],['OBSERVED','OBSERVED — source attached'],['FAIL','FAIL — specified check did not hold'],['PASS','PASS — bounded performed check']])}
+  <div class="control"><div class="pair"><label>Claim or experiment title</label></div><input type="text" data-path="draft.title" maxlength="180" placeholder="e.g. ME-007 identifiability on measured data" value="${esc(state.draft.title)}"></div>
+  <div class="control"><div class="pair"><label>Exact claim, outcome, limits</label></div><textarea data-path="draft.claim" rows="5" placeholder="What was tested? What counts as pass/fail? What was actually observed?">${esc(state.draft.claim)}</textarea></div>
+  <div class="control"><div class="pair"><label>Source / commit / URL (unverified until inspected)</label></div><input data-path="draft.source" type="text" maxlength="800" placeholder="https://... or commit SHA" value="${esc(state.draft.source)}"></div>
+  <button class="btn" data-action="add-note">Add evidence entry</button>
+ </div>
+ <div>
+  <div class="note"><strong>Evidence discipline:</strong> a PASS entry needs a performed check and inspectable basis; a claimed FAIL needs a failed criterion; an assumption or empty citation remains UNRESOLVED. Imported notes are user annotations, not independently authenticated evidence.</div>
+  <div class="buttonrow" style="margin-top:15px"><button class="btn subtle" data-action="import-json">Import laboratory JSON</button><button class="btn subtle" data-action="export-notes">Export notes CSV</button><button class="btn warning" data-action="clear-notes">Clear notes</button></div>
+  <div class="small" style="margin-top:14px">Local storage state: <span id="saveFlag">Saved locally</span>. Opened from a different browser/device, the site will start with defaults until JSON is imported. No connector to email, GitHub, or laboratory instruments is installed in this static page.</div>
+ </div></div>
+`)}
+${section('Recorded observations','Personal local ledger; observations and sources remain subject to review',`<div id="noteRows"></div>`)}
+${section('Next physically meaningful work','The G3 test is a research requirement, not another browser toggle',`
+ <div class="scrolltable"><table class="data-table"><thead><tr><th>Required item</th><th>Current state</th><th>Evidence needed</th></tr></thead><tbody>
+ <tr><td>Distinctive nonzero κ prediction</td><td>${status('UNRESOLVED')}</td><td>Specify an observable and model output that an admissible κ=0 alternative cannot reproduce</td></tr>
+ <tr><td>Ordinary matter constraints</td><td>${status('UNRESOLVED')}</td><td>Fix independent dynamics, sources, units and nuisance flexibility</td></tr>
+ <tr><td>Geometric and analytic closure</td><td>${status('UNRESOLVED')}</td><td>Construct metric, connection, covariance, and a consistent coupled model; inspect source dimensions</td></tr>
+ <tr><td>Measured data / calibration</td><td>${status('UNRESOLVED')}</td><td>Declared instrument, uncertainty, frozen controls, independent reproduction</td></tr>
+ </tbody></table></div>
+`)}
+`;}
+const views={overview,split:splitView,conservation:conservationView,coordinate:coordinateView,ident:identView,atlas:atlasView,verify:verificationView,notebook:notebookView};
+function matAdd(a,b,k=1){return a.map((x,i)=>x+k*b[i]);}
+function matScale(a,k){return a.map(x=>k*x);}
+function frob(a){return Math.hypot(...a);}
+function maxDiff(a,b){return Math.max(...a.map((x,i)=>Math.abs(x-b[i])));}
+function mtrace(a,n){let s=0;for(let i=0;i<n;i++)s+=a[i*n+i];return s;}
+function symmetric(a,n){return a.every((x,k)=>Math.abs(x-a[(k%n)*n+Math.floor(k/n)])<1e-10);}
+function rngPRNG(seed){let s=(Number(seed)>>>0)||1;let spare=null;return {uniform:()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return (s>>>0)/4294967296;},normal(){if(spare!==null){const z=spare;spare=null;return z;}let u=0,v=0;do{u=this.uniform();v=this.uniform();}while(u<=1e-12);const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a);}};}
+function makeSplit(){const d=state.split,T=d.T,I=d.I,J=d.J,k=d.kappa;
+ const S=matAdd(T,I,k), Tp=matAdd(T,J,k), Ip=matAdd(I,J,-1),Sp=matAdd(Tp,Ip,k);
+ const getObs=(a,t)=>{switch(d.observable){case'sourceTrace':return mtrace(a,4);case'sourceNorm':return frob(a);case'source00':return a[0];case'matter00':return t[0];default:return mtrace(a,4)}};
+ return {T,I,J,S,Tp,Ip,Sp,delta:maxDiff(S,Sp),tShift:frob(matAdd(Tp,T,-1)),sourceObs:getObs(S,T),newObs:getObs(Sp,Tp),symmetry:[symmetric(T,4),symmetric(I,4),symmetric(J,4)]};}
+function flrw(p,t,scalarDiv=0,k=1){if(!(t>0))return null;
+ const a=t**p,H=p/t,dH=-p/t**2,R=6*p*(2*p-1)/(t*t),dR=-12*p*(2*p-1)/(t**3);
+ const divI=scalarDiv+dR/2;
+ return {a,H,dH,R,dR,divI,requiredOrdinaryDiv:-k*divI};}
+function fd(t,p,h){if(t-h<=0)return NaN;return (flrw(p,t+h).R-flrw(p,t-h).R)/(2*h);}
+function near(v,w,abs=1e-9,rel=1e-9){return Math.abs(v-w)<=abs+rel*Math.max(Math.abs(v),Math.abs(w),1);}
+function mm2(a,b){return [a[0]*b[0]+a[1]*b[2],a[0]*b[1]+a[1]*b[3],a[2]*b[0]+a[3]*b[2],a[2]*b[1]+a[3]*b[3]];}
+function tr2(a){return a[0]+a[3];}
+function trans2(a){return [a[0],a[2],a[1],a[3]];}
+function det2(a){return a[0]*a[3]-a[1]*a[2];}
+function inv2(a){const d=det2(a);return Math.abs(d)<1e-13?null:[a[3]/d,-a[1]/d,-a[2]/d,a[0]/d];}
+function coords(){const d=state.coordinate,θ=d.theta*Math.PI/180,c=Math.cos(θ),s=Math.sin(θ);
+ const R=[c,-s,s,c],Sh=[1,d.shear,0,1],Sc=[d.sx,0,0,d.sy];
+ const A=mm2(mm2(R,Sh),Sc), T=[d.txx,d.txy,d.txy,d.tyy],g=[1,0,0,1],At=trans2(A),Tprime=mm2(mm2(At,T),A),gprime=mm2(At,A),ginv=inv2(gprime),iA=inv2(A);
+ const contracted=ginv?tr2(mm2(ginv,Tprime)):NaN,base=tr2(T),delta=contracted-base;
+ const normA=Math.sqrt(A.reduce((x,y)=>x+y*y,0)),normInv=iA?Math.sqrt(iA.reduce((x,y)=>x+y*y,0)):Infinity,cond=normA*normInv;
+ const valid=Number.isFinite(cond)&&Math.abs(det2(A))>1e-9&&cond<200;
+ return{A,T,g,Tprime,gprime,ginv,contracted,base,delta,cond,det:det2(A),valid,naiveDifference:tr2(Tprime)-tr2(T)};
+}
+function makeTrial(seed,kappa,mode,n,noise,matterNoise){const rand=rngPRNG(seed);const out=[];let dot=0,energy=0,sse0=0;
+ for(let j=0;j<n;j++){
+  const w=j/(n-1),T=0.4+0.20*Math.cos(j*.085)+0.12*w, I=Math.sin(j*.15)+.4*Math.cos(j*.035)+.13*w;
+  const y=T+kappa*I+noise*rand.normal();const z=T+matterNoise*rand.normal();const tRef=mode==='fixed'?T:mode==='measured'?z:y;
+  const e=y-tRef;
+  dot+=I*e;energy+=I*I;sse0+=e*e;
+  out.push({j,T,I,y,z,tRef});
+ }
+ if(mode==='free')return{data:out,khat:null,delta:0,sse0:0,sse1:0};
+ const khat=energy>1e-14?dot/energy:0, delta=energy>1e-14?dot*dot/energy:0;
+ const sse1=Math.max(0,sse0-delta);
+ return{data:out,khat,delta,sse0,sse1};
+}
+function quantile(xs,q){if(!xs.length)return NaN;const a=[...xs].sort((x,y)=>x-y);const at=Math.floor((a.length-1)*q);return a[at];}
+function identSim(){const d=state.ident,mode=d.mode,n=d.N,seed=d.seed,noise=d.noise,mNoise=d.matterNoise,N=d.replicates;
+ const example=makeTrial(seed,d.kappa,mode,n,noise,mNoise),cal=[],nulls=[],alts=[];
+ if(mode==='free')return{example,cal:Array(N).fill(0),nulls:Array(N).fill(0),alts:Array(N).fill(0),cut:0,falseAlarm:0,power:0,medianK:null};
+ for(let j=0;j<N;j++){
+  cal.push(makeTrial(seed+1000003+7919*j,0,mode,n,noise,mNoise).delta);
+  nulls.push(makeTrial(seed+2000003+7919*j,0,mode,n,noise,mNoise).delta);
+  alts.push(makeTrial(seed+3000003+7919*j,d.kappa,mode,n,noise,mNoise).delta);
+ }
+ const cut=quantile(cal,.95),falseAlarm=nulls.filter(x=>x>cut+1e-15).length/N,power=alts.filter(x=>x>cut+1e-15).length/N;
+ return{example,cal,nulls,alts,cut,falseAlarm,power,medianK:example.khat};
+}
+const color={teal:'#5ce3d0',blue:'#61b7fc',amber:'#f9c579',red:'#f08f9e',purple:'#c5a3f7',green:'#7edbaa',grid:'#264355',text:'#9ab6c6'};
+function ctxCanvas(id){const c=document.getElementById(id);if(!c)return null;const r=c.getBoundingClientRect();if(r.width<10||r.height<10)return null;
+ const q=Number(state.settings.quality)||1,px=clamp((window.devicePixelRatio||1)*q,1,3);
+ const w=Math.max(200,Math.round(r.width)),h=Math.max(100,Math.round(r.height)),cw=Math.round(w*px),ch=Math.round(h*px);
+ if(c.width!==cw||c.height!==ch){c.width=cw;c.height=ch;}const x=c.getContext('2d');x.setTransform(px,0,0,px,0,0);x.clearRect(0,0,w,h);x.fillStyle='#091825';x.fillRect(0,0,w,h);return{x,w,h,c};}
+function fillGrid(x,w,h,pad=34){x.strokeStyle='#284659';x.lineWidth=.7;x.globalAlpha=.62;for(let i=0;i<=5;i++){const y=pad+(h-2*pad)*i/5;x.beginPath();x.moveTo(pad,y);x.lineTo(w-pad,y);x.stroke();const xx=pad+(w-2*pad)*i/5;x.beginPath();x.moveTo(xx,pad);x.lineTo(xx,h-pad);x.stroke()}x.globalAlpha=1;}
+function graph(id,series,opts={}){const c=ctxCanvas(id);if(!c)return;const {x,w,h}=c,padL=53,padR=20,padTop=22,padBot=36;
+ const vals=series.flatMap(s=>s.points).filter(p=>p.every(Number.isFinite));if(!vals.length)return;
+ let xmin=opts.xmin??Math.min(...vals.map(v=>v[0])),xmax=opts.xmax??Math.max(...vals.map(v=>v[0]));if(xmin===xmax){xmin-=1;xmax+=1;}
+ let ymin=opts.ymin??Math.min(...vals.map(v=>v[1])),ymax=opts.ymax??Math.max(...vals.map(v=>v[1]));if(opts.zero){ymin=Math.min(0,ymin);ymax=Math.max(0,ymax);}let gap=(ymax-ymin)*0.14||1;ymin-=gap;ymax+=gap;
+ const X=v=>padL+(v-xmin)/(xmax-xmin)*(w-padL-padR),Y=v=>padTop+(ymax-v)/(ymax-ymin)*(h-padTop-padBot);
+ x.strokeStyle=color.grid;x.lineWidth=1;x.font='10px ui-monospace,monospace';x.fillStyle=color.text;
+ for(let k=0;k<=4;k++){let yy=padTop+(h-padTop-padBot)*k/4;x.beginPath();x.moveTo(padL,yy);x.lineTo(w-padR,yy);x.stroke();const v=ymax-(ymax-ymin)*k/4;x.fillText(num(v,2),3,yy+3);}
+ for(let k=0;k<=5;k++){let xx=padL+(w-padL-padR)*k/5;x.beginPath();x.moveTo(xx,padTop);x.lineTo(xx,h-padBot);x.stroke();x.fillText(num(xmin+(xmax-xmin)*k/5,2),xx-10,h-14);}
+ if(ymin<0&&ymax>0){x.strokeStyle='#638090';x.setLineDash([5,4]);x.beginPath();x.moveTo(padL,Y(0));x.lineTo(w-padR,Y(0));x.stroke();x.setLineDash([]);}
+ x.save();x.beginPath();x.rect(padL,padTop,w-padL-padR,h-padTop-padBot);x.clip();
+ series.forEach(s=>{x.beginPath();x.lineWidth=s.width||1.7;x.strokeStyle=s.color||color.teal;x.globalAlpha=s.alpha||1;x.setLineDash(s.dash||[]);let started=false;
+ s.points.forEach(p=>{if(!p.every(Number.isFinite)){started=false;return;}if(!started){x.moveTo(X(p[0]),Y(p[1]));started=true;}else x.lineTo(X(p[0]),Y(p[1]));});x.stroke();x.setLineDash([]);x.globalAlpha=1;});x.restore();
+ x.font='10px ui-monospace,monospace';x.fillStyle='#aacbd4';if(opts.xlabel)x.fillText(opts.xlabel,w/2-24,h-3);
+}
+function heat(id,data,n=4){const c=ctxCanvas(id);if(!c)return;const {x,w,h}=c,margin=14,side=Math.min(h-2*margin,(w-2*margin)*.85),cell=side/n,offX=(w-side)/2,offY=(h-side)/2,max=Math.max(0.0001,...data.map(v=>Math.abs(v)));x.font='11px ui-monospace,monospace';x.textAlign='center';x.textBaseline='middle';
+ for(let i=0;i<n;i++)for(let j=0;j<n;j++){const val=data[i*n+j],a=Math.pow(Math.min(1,Math.abs(val)/max),.75),px=offX+j*cell,py=offY+i*cell;
+ x.fillStyle=val>=0?`rgba(65,212,197,${.15+.72*a})`:`rgba(235,119,149,${.15+.72*a})`;x.fillRect(px+1,py+1,cell-2,cell-2);
+ x.fillStyle=a>.6?'#091b26':'#d9f4f5';x.fillText(num(val,2),px+cell/2,py+cell/2);}
+ x.textAlign='left';x.textBaseline='alphabetic';}
+function basisPlot(result){const o=ctxCanvas('basisPlot');if(!o)return;const {x,w,h}=o,p=32,scale=Math.min((w-2*p)/6,(h-2*p)/6),cx=w/2,cy=h/2;
+ for(let j=-3;j<=3;j++){x.strokeStyle='#294556';x.lineWidth=.75;x.beginPath();x.moveTo(cx+j*scale,p);x.lineTo(cx+j*scale,h-p);x.stroke();x.beginPath();x.moveTo(p,cy+j*scale);x.lineTo(w-p,cy+j*scale);x.stroke();}
+ x.strokeStyle=color.amber;x.lineWidth=1.8;x.beginPath();x.ellipse(cx,cy,scale,scale,0,0,2*Math.PI);x.stroke();
+ function arrow(a,b,c){const dx=a*scale,dy=-b*scale,ex=cx+dx,ey=cy+dy;x.strokeStyle=c;x.fillStyle=c;x.lineWidth=3;x.beginPath();x.moveTo(cx,cy);x.lineTo(ex,ey);x.stroke();x.beginPath();const angle=Math.atan2(dy,dx);x.moveTo(ex,ey);x.lineTo(ex-10*Math.cos(angle-.4),ey-10*Math.sin(angle-.4));x.lineTo(ex-10*Math.cos(angle+.4),ey-10*Math.sin(angle+.4));x.closePath();x.fill();}
+ arrow(result.A[0],result.A[2],color.teal);arrow(result.A[1],result.A[3],color.blue);
+ x.fillStyle='#b0cbdb';x.font='11px ui-monospace,monospace';x.fillText('x',w-20,cy-6);x.fillText('y',cx+8,18);
+}
+function histogram(id,nulls,alts,cut){const c=ctxCanvas(id);if(!c)return;const {x,w,h}=c,padL=47,padR=19,padT=20,padB=32,all=[...nulls,...alts,cut].filter(Number.isFinite),max=Math.max(.01,...all);const bins=24;
+ const count=(a)=>{const b=Array(bins).fill(0);a.forEach(v=>{if(Number.isFinite(v)){let k=Math.min(bins-1,Math.max(0,Math.floor((v/max)*bins)));b[k]++;}});return b;};
+ const nb=count(nulls),ab=count(alts),highest=Math.max(1,...nb,...ab);const X=v=>padL+v/max*(w-padL-padR),Y=v=>h-padB-v/highest*(h-padT-padB);
+ for(let i=0;i<=4;i++){const yy=padT+(h-padT-padB)*i/4;x.strokeStyle='#284659';x.beginPath();x.moveTo(padL,yy);x.lineTo(w-padR,yy);x.stroke();x.font='10px ui-monospace';x.fillStyle=color.text;x.fillText(num(highest*(4-i)/4,0),8,yy+3)}
+ for(let i=0;i<bins;i++){const left=X(i*max/bins),right=X((i+1)*max/bins),base=h-padB;x.fillStyle='#61b7fc8a';x.fillRect(left,Math.max(padT,Y(nb[i])),(right-left)*.46,base-Math.max(padT,Y(nb[i])));x.fillStyle='#f9c579a3';x.fillRect(left+(right-left)*.5,Math.max(padT,Y(ab[i])),(right-left)*.46,base-Math.max(padT,Y(ab[i])))}
+ const cutx=X(clamp(cut,0,max));x.strokeStyle=color.red;x.lineWidth=2;x.setLineDash([5,4]);x.beginPath();x.moveTo(cutx,padT);x.lineTo(cutx,h-padB);x.stroke();x.setLineDash([]);x.fillStyle=color.red;x.font='10px ui-monospace,monospace';x.fillText('cutoff',Math.min(cutx+3,w-56),padT+10);
+ x.fillStyle=color.text;for(let i=0;i<=4;i++)x.fillText(num(max*i/4,2),X(max*i/4)-8,h-13);
+}
+function renderSplit(){const r=makeSplit();heat('heatT',r.T);heat('heatI',r.I);heat('heatS',r.S);heat('heatSp',r.Sp);
+ const d=document.getElementById('splitMetrics');if(!d)return;
+ d.innerHTML=box('Max |S−S′|',num(r.delta,10),'floating-point algebra',r.delta<1e-9?'teal':'red')+box('||T−T′||',num(r.tShift,5),'separate matter can change')+box('O(S) before',num(r.sourceObs,6),'configured observable')+box('O(S′) after',num(r.newObs,6),'same total or matter-only');
+ const sym=r.symmetry.every(Boolean),sourceObs=state.split.observable!=='matter00',blind=near(r.sourceObs,r.newObs,1e-9);
+ document.getElementById('splitNarrative').innerHTML=`<div class="note ${!blind&&sourceObs?'redborder':'tealborder'}"><strong>${sourceObs?'Source-only observation: '+(blind?'algebraically indistinguishable':'NUMERIC ALERT'):'Independent matter observation: '+(blind?'currently matching':'distinct')}</strong>. T, I and J are ${sym?'symmetric':'not all symmetric'} component arrays. A source-only observer sees the same S after reallocation, while a matter observer can in general tell that T and T′ differ. This is not physical equivalence unless all reallocated matter fields are admissible.</div>`;
+}
+function renderConservation(){const d=state.conservation,o=flrw(d.p,d.t,d.scalarDiv,d.kappa);if(!o)return;
+ const h=Math.min(d.h,d.t*.45),approx=fd(d.t,d.p,h),error=Math.abs(approx-o.dR),rel=error/(1+Math.abs(o.dR));
+ document.getElementById('consMetrics').innerHTML=box('R(t)',num(o.R,6),'6p(2p−1)/t²')+box('∂ₜR',num(o.dR,6),'curvature gradient')+box('div(I)',num(o.divI,6),'scalarDiv + ½∂ₜR',Math.abs(o.divI)>1e-8?'amber':'teal')+box('Required div(T)',num(o.requiredOrdinaryDiv,5),'for total conservation');
+ const pts=Math.min(state.settings.samples,2048),ts=[],grad=[],div=[],ordinary=[];const start=Math.max(.01,d.timeMin),end=Math.max(start+.05,d.timeMax);
+ for(let i=0;i<pts;i++){const t=start+(end-start)*i/(pts-1),v=flrw(d.p,t,d.scalarDiv,d.kappa);ts.push([t,v.R]);grad.push([t,v.dR]);div.push([t,v.divI]);ordinary.push([t,v.requiredOrdinaryDiv]);}
+ graph('curvaturePlot',[{points:ts,color:color.teal}],{xlabel:'model t'});graph('gradientPlot',[{points:grad,color:color.blue},{points:div,color:color.amber},{points:ordinary,color:color.red,dash:[5,4]}],{xlabel:'model t',zero:true});
+ const conv=[];for(let i=0;i<24;i++){const hh=Math.min(d.t*.4,0.22*Math.pow(.75,i));const val=fd(d.t,d.p,hh);conv.push([i+1,Math.log10(Math.abs(val-o.dR)+1e-16)]);}graph('convergencePlot',[{points:conv,color:color.purple}],{xlabel:'refinement',zero:false});
+ const isObstructed=Math.abs(d.scalarDiv)<1e-9&&Math.abs(o.dR)>1e-9;
+ document.getElementById('consNarrative').innerHTML=`<div class="note ${isObstructed?'redborder':'tealborder'}"><strong>${isObstructed?'COUNTEREXAMPLE TO AUTOMATIC SEPARATE CONSERVATION':'CONDITIONAL PROFILE CHECK'}</strong>. At t=${num(d.t)}, p=${num(d.p,4)}, the supplied relation gives div(I)=${num(o.divI,7)}. The numerical central-difference derivative differs from the analytic derivative by ${num(error,9)} (normalized error ${num(rel,8)}). ${isObstructed?'An on-shell scalar does not force div(I)=0 when ∂R is nonzero.':'This sample does not by itself exhibit the on-shell, nonzero-gradient obstruction.'} The displayed geometry is an analytic flat-FLRW specialization, not a coupled solution of ME-007. ${Math.abs(d.kappa)<1e-12?'With κ=0, the informational source does not contribute to the gravitational equation.':''}</div>`;
+}
+function renderCoordinate(){const q=coords();document.getElementById('coordMetrics').innerHTML=box('det(A)',num(q.det,7),'invertibility precondition',Math.abs(q.det)<1e-6?'red':'teal')+box('cond₂ proxy',num(q.cond,4),'Frobenius norm product',q.cond>100?'amber':'teal')+box('Intrinsic trace',num(q.contracted,7),'tr((g′)⁻¹T′)')+box('Coordinate Δtrace',num(q.naiveDifference,7),'tr(T′) − tr(T)');basisPlot(q);heat('tensorHeat',q.Tprime,2);heat('metricHeat',q.gprime,2);
+ const err=Math.abs(q.delta),tol=1e-9*(1+Math.abs(q.base));let text;
+ if(!q.valid)text=`<strong>DEGENERATE / ILL-CONDITIONED.</strong> The current transformation has determinant ${num(q.det,8)} and conditioning proxy ${num(q.cond,4)}. Do not certify covariance from a numerically unstable change of basis.`;
+ else text=`<strong>${err<=tol?'INVARIANT CONTRACTION CHECK PASSES':'NUMERICAL INVARIANCE WARNING'}.</strong> tr(T)=${num(q.base,7)}, tr((g′)⁻¹T′)=${num(q.contracted,7)}, absolute error=${num(err,9)}. Coordinate-only tr(T′) differs by ${num(q.naiveDifference,7)}; its apparent change is not a new physical observable.`;
+ document.getElementById('coordNarrative').innerHTML=`<div class="note ${q.valid&&err<=tol?'tealborder':'redborder'}">${text} This 2D example is a transformation check, not a proof of 4D ME-006 covariance.</div>`;
+}
+function renderIdent(){const q=identSim(),d=state.ident;computed=q;
+ const available=d.mode!=='free',threshold=q.cut;
+ document.getElementById('identMetrics').innerHTML=box('Estimated κ',available?num(q.medianK,5):'NOT ID','single synthetic sample',available?'teal':'red')+box('Held-out null alerts',available?num(q.falseAlarm*100,1)+'%':'N/A','simulated false-alarm rate')+box('Held-out detection',available?num(q.power*100,1)+'%':'N/A','simulated positive trials')+box('Null cutoff ΔSSE',num(threshold,6),'calibrated 95th percentile');
+ const example=q.example,raw=example.data.map(x=>[x.j,x.y]),nullFit=example.data.map(x=>[x.j,available?x.tRef:x.y]),altFit=example.data.map(x=>[x.j,available?x.tRef+example.khat*x.I:x.y]);
+ graph('identTime',[{points:raw,color:color.blue,width:1.5},{points:nullFit,color:color.amber,width:1.5},{points:altFit,color:color.teal,width:1.5}],{xlabel:'sample'});
+ histogram('identHistogram',q.nulls,q.alts,threshold);
+ let msg;if(!available)msg='<strong>STRUCTURAL NON-IDENTIFIABILITY.</strong> With an unrestricted ordinary sector, the κ=0 null can absorb all of κI. Both models fit the same synthetic source exactly. A 0% displayed detection count is not a calibrated empirical result: the hypotheses are observationally identical under these assumptions.';
+ else if(d.kappa===0)msg='<strong>NEGATIVE CONTROL.</strong> The injected coupling is zero. Any above-cutoff event in the holdout is a synthetic false alarm. The threshold is estimated from separate null simulations, not external observations.';
+ else msg=`<strong>ASSUMPTION-SENSITIVE IDENTIFICATION.</strong> This selected observation model fixes or separately measures T. The held-out synthetic null incidence is ${num(q.falseAlarm*100,1)}%, while positive-condition detection is ${num(q.power*100,1)}%, across ${d.replicates} traces each. These are simulator estimates, not physically verified EFMW effects.`;
+ document.getElementById('identNarrative').innerHTML=`<div class="note ${available?'tealborder':'redborder'}">${msg} Regression uses the exact toy signal family and compares null SSE with an alternative optimized over κ. Reuse of the same signal design limits external validity.</div>`;
+}
+function runHarness(){const tests=[];
+ function add(id,name,condition,detail){tests.push({id,name,status:condition?'PASS':'FAIL',detail,scope:'Browser mathematical/numerical test'});}
+ const s=state.split,sp=makeSplit();
+ add('ALG-001','T + κI = (T+κJ)+κ(I−J)',sp.delta<1e-9,'Current 4×4 state; max component discrepancy '+num(sp.delta,10));
+ let maxError=0,random=rngPRNG(41932);
+ for(let z=0;z<160;z++){const t=Array.from({length:16},()=>random.normal()*5),i=Array.from({length:16},()=>random.normal()*5),j=Array.from({length:16},()=>random.normal()*5),k=(random.uniform()-.5)*8,original=matAdd(t,i,k),shifted=matAdd(matAdd(t,j,k),matAdd(i,j,-1),k);maxError=Math.max(maxError,maxDiff(original,shifted));}
+ add('ALG-002','Reallocation sweep over 160 seeded component arrays',maxError<1e-11,'Max absolute discrepancy '+num(maxError,10)+' for O(1)–O(10) components');
+ add('ALG-003','κ=0 exactly reproduces ordinary source',maxDiff(matAdd(s.T,s.I,0),s.T)===0,'No informational contribution when coupling is zero');
+ add('ALG-004','Symmetric array sums remain symmetric',symmetric(matAdd(Array(16).fill(0),Array(16).fill(1)),4),'Explicit symmetric synthetic arrays');
+ const nonzero=makeTrial(9,1.3,'free',60,.2,.25),fixed=makeTrial(9,1.3,'fixed',60,.2,.25);
+ add('ID-001','Unrestricted matter makes a source-only κ test degenerate',nonzero.delta===0&&nonzero.khat===null,'A source-only model can use T′=S, so both hypotheses reproduce S');
+ add('ID-002','Fixed matter produces a model-specific measurable difference',fixed.delta>1e-6&&fixed.khat!==null,'Synthetic observation assumptions; ΔSSE='+num(fixed.delta));
+ const t0=flrw(2/3,1,0,1),trad=flrw(.5,1.7,0,1);
+ add('FLRW-001','Dust-profile R(t=1)=4/3',near(t0.R,4/3,1e-11),'Standard spatially flat power-law scalar-curvature identity');
+ add('FLRW-002','Dust-profile ∂R(t=1)=−8/3',near(t0.dR,-8/3,1e-11),'Derivative of analytic profile');
+ add('FLRW-003','Radiation-like p=1/2 yields R=0',near(trad.R,0,1e-11)&&near(trad.dR,0,1e-11),'An exact parameter cancellation; not proof of a coupled model');
+ let error1=Math.abs(fd(1.5,2/3,.15)-flrw(2/3,1.5).dR),error2=Math.abs(fd(1.5,2/3,.075)-flrw(2/3,1.5).dR);
+ add('NUM-001','Reducing differentiation step improves analytic agreement',error2<error1&&error2<.1,'error(h)='+num(error1,8)+'; error(h/2)='+num(error2,8));
+ const orig=clone(state.coordinate);Object.assign(state.coordinate,{theta:21,shear:1.2,sx:1.7,sy:.75});const coord=coords();state.coordinate=orig;
+ add('COORD-001','Metric-contracted trace survives invertible basis change',coord.valid&&near(coord.contracted,coord.base,1e-9),'Analytic 2×2 coordinate change; discrepancy '+num(coord.delta,9));
+ add('COORD-002','Naive component trace is NOT invariant under shear',Math.abs(coord.naiveDifference)>.05,'Demonstrates why a coordinate-only scalar claim fails');
+ const identity={...t0};
+ add('CONS-001','Reduced Bianchi identity holds in explicit witness',near(identity.divI,identity.dR/2,1e-11),'Assumes divI=divScalar+½∂R; not derived from 4D metric in Lean');
+ tests.push({id:'CONS-002',name:'Universal claim “on-shell scalar ⇒ div(I)=0”',status:t0.divI!==0?'COUNTEREXAMPLE':'UNRESOLVED',detail:'With assumed Bianchi identity and p=2/3 at t=1, div(I)='+num(t0.divI)+'. This is a conditional obstruction, not a full coupled solution.',scope:'Counterexample to the overly broad implication'});
+ const nearlySing=[1,0,0,0],reject=inv2(nearlySing)===null;
+ add('COORD-003','Singular basis is rejected before inversion',reject,'Exact determinant-zero control');
+ tests.push({id:'LEAN-001',name:'Kernel-level proof compilation',status:'UNRESOLVED',detail:'Not executed by this web page. Inspect an actual GitHub Actions run with the matching commit.',scope:'External Lean proof obligation'});
+ tests.push({id:'PHYS-001',name:'ME-007 fully covariant coupled Einstein–matter solution',status:'UNRESOLVED',detail:'Curved-space connection and admissible coupled source have not been formalized in this browser.',scope:'Physical and mathematical gap'});
+ tests.push({id:'PHYS-002',name:'Independent observation distinguishes κI≠0 from κI=0',status:'UNRESOLVED',detail:'No real measurements, independent matter laws, or frozen physical prediction supplied.',scope:'Physical identification gate G3'});
+ const receipt={version:VERSION,ranAt:new Date().toISOString(),domain:'browser JS arithmetic only',source:'https://github.com/enuminous/Geometry',parameterSnapshot:{split:clone(state.split),conservation:clone(state.conservation),coordinate:clone(state.coordinate),ident:clone(state.ident),settings:clone(state.settings)},tolerance:{abs:1e-9,rel:1e-9},tests};state.testReceipt=receipt;persist();return receipt;}
+function renderVerification(){const r=state.testReceipt,metrics=document.getElementById('verificationMetrics'),rows=document.getElementById('verificationRows');if(!metrics||!rows)return;
+ if(!r){metrics.innerHTML=box('Performed','0','run the browser tests')+box('Counterexamples','—','no run recorded')+box('Physical G3','UNRESOLVED','no direct measurement','red')+box('Kernel proof','NOT CHECKED','open GitHub Actions');rows.innerHTML='<div class="note">No browser check has been executed in this session. This is not a FAIL and not a PASS.</div>';return;}
+ const count=x=>r.tests.filter(z=>z.status===x).length;
+ metrics.innerHTML=box('Numerical passes',count('PASS'),'browser-defined checks','teal')+box('Counterexamples',count('COUNTEREXAMPLE'),'explicit false universal claims','amber')+box('Checks failed',count('FAIL'),'check source and tolerance',count('FAIL')?'red':'teal')+box('Unresolved',count('UNRESOLVED'),'Lean / physical obligations','red');
+ rows.innerHTML=`<div class="audititem"><div class="basis"><h4>Receipt timestamp</h4><p>${esc(r.ranAt)} · ${esc(r.domain)}</p></div></div>`+r.tests.map(t=>`<div class="audititem"><div class="basis"><h4><span class="mono">${esc(t.id)}</span> · ${esc(t.name)}</h4><p>${esc(t.detail)}. ${esc(t.scope)}.</p></div><div class="stamp">${status(t.status,t.status==='PASS'?'pass':t.status==='FAIL'?'fail':'pending')}</div></div>`).join('');
+}
+function renderNotes(){const rows=document.getElementById('noteRows');if(!rows)return;rows.innerHTML=state.notes.length?state.notes.map((n,i)=>`<div class="audititem"><div class="basis"><h4>${esc(n.title||'Untitled entry')} · <span class="mono small">${esc(n.createdAt)}</span></h4><p>${esc(n.claim)}</p><p>${n.source?`Source reference: ${esc(n.source)}`:'No source provided'}</p></div><div class="stamp">${status(n.status,n.status==='PASS'?'pass':n.status==='FAIL'?'fail':'pending')}<button class="btn subtle" data-delete-note="${i}" style="display:block;margin-top:7px">Delete</button></div></div>`).join(''):'<div class="note">No evidence entries saved yet. Add one with its claim, outcome, and source reference.</div>';}
+function drawAll(){switch(state.mode){case'split':renderSplit();break;case'conservation':renderConservation();break;case'coordinate':renderCoordinate();break;case'ident':renderIdent();break;case'verify':renderVerification();break;case'notebook':renderNotes();break;}}
+function queueDraw(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;drawAll();});}
+function updateOutputs(){document.querySelectorAll('[data-out]').forEach(el=>{const p=el.dataset.out,v=get(p),unit=p==='coordinate.theta'?'°':'';el.textContent=num(v,5)+unit;});}
+function render(){document.getElementById('sidebar').innerHTML='<div class="sidegroup">LAB MODES</div>'+MODE_META.map(m=>`<button class="navbutton ${state.mode===m.id?'active':''}" data-mode="${m.id}" ${state.mode===m.id?'aria-current="page"':''}><span class="num">${m.n}</span>${m.name}</button>`).join('')+`<div class="sidenote"><strong>Version ${VERSION}</strong><br>Standalone, client-side. No external data read or transmitted.<a href="https://github.com/enuminous/Geometry/actions" target="_blank" rel="noopener noreferrer">Lean CI status ↗</a><a href="https://github.com/enuminous/Geometry/blob/main/PROOF_RECEIPT.md" target="_blank" rel="noopener noreferrer">Proof boundary ↗</a><div style="margin-top:12px">Render density:</div>${sel('settings.quality','Canvas resolution',[['1','1×'],['1.5','1.5×'],['2','2×'],['2.5','2.5×']])}<div style="margin-top:10px">${sel('settings.samples','Plot samples',[['128','128'],['256','256'],['512','512'],['1024','1024']])}</div></div>`;
+ document.getElementById('main').innerHTML=views[state.mode]();updateOutputs();queueDraw();persist();}
+function preset(id){const r=RECIPES.find(x=>x.id===id);if(!r)return;state.recipe=id;const target=r.mode==='ident'?'ident':r.mode==='split'?'split':r.mode==='conservation'?'conservation':r.mode==='coordinate'?'coordinate':null;if(target)Object.assign(state[target],r.config);state.mode=r.mode;render();announce('Loaded '+r.name+' · '+r.id);}
+function download(name,content,mime='application/json'){const blob=content instanceof Blob?content:new Blob([content],{type:mime+';charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);}
+function csv(rows){return rows.map(row=>row.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(',')).join('\r\n');}
+function receiptData(){return{product:'Geometry-Foundation-001 Interactive Lab',version:VERSION,generatedAt:new Date().toISOString(),evidenceScope:'synthetic browser-only; never Lean or physical verification',mode:state.mode,settings:clone(state.settings),parameters:{split:clone(state.split),conservation:clone(state.conservation),coordinate:clone(state.coordinate),ident:clone(state.ident)},localNotes:clone(state.notes),browserRegression:state.testReceipt,explicitlyUnresolved:['ME-006 4D tensor transformation','ME-007 coupled Einstein–matter solution','independent observed distinction between κI and zero']};}
+function makeShareURL(){const payload={v:VERSION,mode:state.mode,settings:state.settings,split:state.split,conservation:state.conservation,coordinate:state.coordinate,ident:state.ident};return location.href.split('#')[0]+'#lab='+encodeURIComponent(JSON.stringify(payload));}
+function pngAll(){const canvases=[...document.querySelectorAll('#main canvas')].filter(x=>x.width>0&&x.height>0);if(!canvases.length){announce('No plot in this mode. Open an experiment first.');return;}
+ const cw=900,cols=canvases.length===1?1:2,rows=Math.ceil(canvases.length/cols),bw=cols===1?900:1900,bh=rows*550+95;
+ const out=document.createElement('canvas');out.width=bw;out.height=bh;const x=out.getContext('2d');x.fillStyle='#07111c';x.fillRect(0,0,bw,bh);x.fillStyle='#d8edf5';x.font='bold 25px sans-serif';x.fillText('MONOLITHIC / GEOMETRY FIELD LAB · '+state.mode.toUpperCase(),35,42);x.font='16px monospace';x.fillStyle='#83b7ba';x.fillText('Synthetic mathematics; physical G3 UNRESOLVED',35,70);
+ canvases.forEach((c,i)=>{const col=i%cols,row=Math.floor(i/cols),xx=col*950+28,yy=row*550+98;x.fillStyle='#102234';x.fillRect(xx,yy,900,510);x.fillStyle='#dceffa';x.font='bold 20px sans-serif';x.fillText(c.getAttribute('aria-label')||c.id,xx+14,yy+29);x.drawImage(c,xx+10,yy+44,875,455);});
+ out.toBlob(b=>{if(b)download('geometry-'+state.mode+'-charts.png',b,'image/png');},'image/png');}
+function regenerateMatrices(){const r=rngPRNG(1873+Math.round(state.split.kappa*100));for(const name of ['T','I','J']){const a=Array(16).fill(0);for(let i=0;i<4;i++)for(let j=i;j<4;j++){const v=Math.round((r.uniform()*3-1.5)*100)/100;a[4*i+j]=v;a[4*j+i]=v;}state.split[name]=a;}}
+async function action(which){switch(which){
+ case'copy-link':{const url=makeShareURL();try{await navigator.clipboard.writeText(url);announce('Deterministic state link copied; notes not included.');}catch(e){download('geometry-share-url.txt',url,'text/plain');announce('Clipboard blocked; shared-state URL saved instead.');}break;}
+ case'export-json':download('geometry-lab-receipt-'+state.mode+'.json',JSON.stringify(receiptData(),null,2));announce('Evidence-bounded JSON exported.');break;
+ case'export-png':pngAll();break;
+ case'reset-mode':{const sec=state.mode==='split'?'split':state.mode==='conservation'?'conservation':state.mode==='coordinate'?'coordinate':state.mode==='ident'?'ident':null;if(sec)state[sec]=clone(START[sec]);if(state.mode==='verify')state.testReceipt=null;render();announce('Mode reset to documented defaults.');break;}
+ case'random-matrices':regenerateMatrices();render();announce('Seeded symmetric component matrices loaded.');break;
+ case'reseed':state.ident.seed=(state.ident.seed+137)%9999+1;render();break;
+ case'run-tests':runHarness();renderVerification();announce('Browser checks executed; G3 remains UNRESOLVED.');break;
+ case'export-tests':{if(!state.testReceipt){announce('Run verification before exporting test results.');return;}const v=state.testReceipt.tests;download('geometry-numerical-checks.csv',csv([['id','name','status','detail','scope'],...v.map(t=>[t.id,t.name,t.status,t.detail,t.scope])]),'text/csv');break;}
+ case'clear-tests':state.testReceipt=null;persist();renderVerification();break;
+ case'add-note':{const d=state.draft;if(!d.title.trim()||!d.claim.trim()){announce('Title and exact claim are required.');return;}state.notes.unshift({title:d.title.trim(),claim:d.claim.trim(),source:d.source.trim(),status:d.status,createdAt:new Date().toISOString()});state.notes=state.notes.slice(0,150);state.draft=clone(START.draft);render();announce('Evidence entry added locally; not independently authenticated.');break;}
+ case'clear-notes':if(confirm('Delete every locally saved evidence note? Export first if needed.')){state.notes=[];render();announce('Local notes cleared.');}break;
+ case'export-notes':download('geometry-evidence-ledger.csv',csv([['createdAt','title','claim','status','source'],...state.notes.map(n=>[n.createdAt,n.title,n.claim,n.status,n.source])]),'text/csv');break;
+ case'import-json':document.getElementById('importFile').click();break;
+ default:break;}}
+function safeImport(obj){if(!obj||typeof obj!=='object')throw Error('Not a JSON object');const x=obj.parameters?{...obj.parameters,notes:obj.localNotes}:obj.state?obj.state:obj;const fresh=clone(START);
+ for(const name of ['split','conservation','coordinate','ident','settings'])if(x[name]&&typeof x[name]==='object')for(const [k,value] of Object.entries(x[name]))if(k in fresh[name]){if(typeof fresh[name][k]==='number'&&Number.isFinite(Number(value))&&value!==''&&value!==null)fresh[name][k]=Number(value);else if(typeof fresh[name][k]==='string'&&typeof value==='string')fresh[name][k]=value;else if(typeof fresh[name][k]==='boolean'&&typeof value==='boolean')fresh[name][k]=value;else if(Array.isArray(fresh[name][k])&&Array.isArray(value)&&value.length===16&&value.every(y=>Number.isFinite(y)))fresh[name][k]=value;}
+ if(Array.isArray(x.notes))fresh.notes=x.notes.filter(z=>z&&typeof z.title==='string'&&typeof z.claim==='string').slice(0,150).map(n=>({title:n.title.slice(0,180),claim:n.claim.slice(0,10000),source:String(n.source||'').slice(0,800),status:String(n.status||'UNRESOLVED'),createdAt:String(n.createdAt||'')}));
+ if(x.mode&&MODE_META.some(m=>m.id===x.mode))fresh.mode=x.mode;
+ fresh.conservation.t=clamp(fresh.conservation.t,.5,4.5);fresh.conservation.p=clamp(fresh.conservation.p,0,1.6);fresh.conservation.h=clamp(fresh.conservation.h,.001,.2);fresh.ident.N=Math.round(clamp(fresh.ident.N,24,400));fresh.ident.replicates=Math.round(clamp(fresh.ident.replicates,40,300));fresh.ident.seed=Math.round(clamp(fresh.ident.seed,1,10000));fresh.settings.quality=clamp(Number(fresh.settings.quality)||1.5,1,2.5);fresh.settings.samples=clamp(Math.round(Number(fresh.settings.samples)||256),64,1024);
+ state=fresh;render();}
+document.addEventListener('input',e=>{const t=e.target;
+ if(t.dataset.matrix){const name=t.dataset.matrix,k=Number(t.dataset.cell),val=Number(t.value);if(!Number.isFinite(val)||val<-1e6||val>1e6)return;state.split[name][k]=val;if(state.split.symmetric){const i=Math.floor(k/4),j=k%4,reverse=j*4+i;state.split[name][reverse]=val;const peer=document.querySelector(`[data-matrix="${name}"][data-cell="${reverse}"]`);if(peer&&peer!==t)peer.value=String(val);}persist();queueDraw();return;}
+ const path=t.dataset.path;if(!path)return;if(t.tagName==='SELECT')return;const old=get(path);let val=t.type==='checkbox'?t.checked:typeof old==='number'?Number(t.value):t.value;
+ if(typeof old==='number'&&!Number.isFinite(val))return;set(path,val);updateOutputs();persist();if(!path.startsWith('draft.'))queueDraw();});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.path){const path=t.dataset.path,old=get(path),value=t.type==='checkbox'?t.checked:typeof old==='number'?Number(t.value):t.value;if(typeof old==='number'&&!Number.isFinite(value))return;set(path,value);if(path==='split.editor'||path==='settings.quality'||path==='settings.samples')render();else{updateOutputs();queueDraw();persist();}}});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.mode){state.mode=b.dataset.mode;render();return;}if(b.dataset.recipe){preset(b.dataset.recipe);return;}if(b.dataset.action){action(b.dataset.action);return;}if(b.dataset.deleteNote!==undefined){const i=Number(b.dataset.deleteNote);if(confirm('Delete this locally stored note?')){state.notes.splice(i,1);render();}}});
+document.getElementById('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const obj=JSON.parse(await f.text());safeImport(obj);announce('Configuration and local notes imported after validation.');}catch(err){announce('Import failed: '+String(err.message||err));}e.target.value='';});
+window.addEventListener('resize',queueDraw,{passive:true});
+try{const hash=location.hash.startsWith('#lab=')?JSON.parse(decodeURIComponent(location.hash.slice(5))):null;if(hash&&hash.v===VERSION){safeImport(hash);announce('Loaded shared configuration; no evidence notes were shared.');}else render();}catch(e){render();}
+</script>
+</body></html>
