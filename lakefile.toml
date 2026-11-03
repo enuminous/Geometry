@@ -1,0 +1,15 @@
+name = "geometry_foundation_001"
+version = "0.1.0"
+defaultTargets = ["Geometry"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "8f9d9cff6bd728b17a24e163c9402775d9e6a365"
+
+[[lean_lib]]
+name = "Geometry"
+
+[[lean_exe]]
+name = "geometryAudit"
+root = "Main"
