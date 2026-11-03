@@ -81,7 +81,7 @@ theorem source_only_observable_blind
     (ordinary info : Components) (κ : ℝ) :
     observation (totalSource ordinary info κ) =
       observation (totalSource (totalSource ordinary info κ) zeroComponents 0) := by
-  rw [source_absorption]
+  exact congrArg observation (source_absorption ordinary info κ)
 
 /-- Explicit nonzero-source witness: two distinct decompositions have the
 same total components at κ = 1. -/
@@ -129,7 +129,7 @@ theorem nonzero_info_div_of_gradient
 /-- Closed arithmetic countermodel for the reduced Bianchi identity.
 The numbers match a proposed FLRW curvature-gradient witness at t = 1,
 but this file does NOT derive them from a Lorentzian metric. -/
-def explicitBianchiWitness : ReducedBianchi where
+noncomputable def explicitBianchiWitness : ReducedBianchi where
   scalarDiv := 0
   infoDiv := -(4 / 3)
   curvatureGrad := -(8 / 3)
@@ -147,7 +147,7 @@ theorem explicit_obstruction :
 
 /-- A proposed dust-FLRW scalar-curvature *profile* in units and sign
 conventions fixed externally; this is not a Ricci computation from a metric. -/
-def proposedRicciScalar (t : ℝ) : ℝ := 4 / (3 * t ^ 2)
+noncomputable def proposedRicciScalar (t : ℝ) : ℝ := 4 / (3 * t ^ 2)
 
 /-- The proposed profile is not constant. This is a numerical algebra check,
 not a curvature-tensor construction or a physical observation. -/
