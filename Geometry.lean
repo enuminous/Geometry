@@ -1,3 +1,5 @@
+import Mathlib
+
 /-!
 Geometry-Foundation-001: EFMW ME-006 / ME-007 source identifiability and
 reduced Bianchi obstruction.
@@ -7,7 +9,6 @@ STATUS: proof source, not a verification of physical EFMW.
 The ReducedBianchi identity is an explicit *assumption*, not derived here
 from a Lorentzian metric, Levi-Civita connection, or Einstein equations.
 -/
-import Mathlib
 
 namespace GeometryFoundation
 
